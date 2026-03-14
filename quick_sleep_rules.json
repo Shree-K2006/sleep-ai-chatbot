@@ -1,0 +1,14 @@
+{
+  "age_groups": {
+    "13-18": { "min_sleep": 8, "max_sleep": 10 },
+    "19-25": { "min_sleep": 7, "max_sleep": 9 },
+    "26-40": { "min_sleep": 7, "max_sleep": 8 },
+    "41-60": { "min_sleep": 6, "max_sleep": 8 }
+  },
+  "mood_scores": {
+    "Fresh": 20,
+    "Normal": 15,
+    "Tired": 8,
+    "Very Exhausted": 0
+  }
+}

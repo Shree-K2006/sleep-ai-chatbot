@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>PeaceBot Dashboard</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="{{ user.theme }}">
+
+<div class="theme-switcher">
+<select id="themeSelector">
+<option value="light">Light</option>
+<option value="dark">Dark</option>
+<option value="lavender">Lavender</option>
+<option value="rose">Rose</option>
+<option value="blue">Blue</option>
+<option value="honeydew">Honeydew</option>
+<option value="peach">Peach</option>
+<option value="seashell">Seashell</option>
+<option value="mint">Mint</option>
+</select>
+</div>
+
+<div class="main-container">
+
+<!-- TRACKER PANEL -->
+<div class="tracker-panel">
+
+<h2>🌙 Sleep Tracker</h2>
+
+<form id="sleepForm">
+
+<label>Sleep Time</label>
+<select name="sleep_time">
+<option>Before 10 PM</option>
+<option>10–11 PM</option>
+<option>11–12 AM</option>
+<option>After 12 AM</option>
+</select>
+
+<label>Wake Time</label>
+<select name="wake_time">
+<option>Before 6 AM</option>
+<option>6–7 AM</option>
+<option>7–8 AM</option>
+<option>After 8 AM</option>
+</select>
+
+<label>Morning Mood</label>
+<select name="mood">
+<option>Fresh</option>
+<option>Normal</option>
+<option>Tired</option>
+<option>Very Exhausted</option>
+</select>
+
+<button type="submit">Track Sleep</button>
+
+</form>
+
+</div>
+
+<!-- ANALYTICS PANEL -->
+<div class="analytics-panel">
+
+<div class="score-card">
+<h3>🌙 Sleep Score</h3>
+<div id="scoreBox">Track your sleep to see score</div>
+</div>
+
+<div class="graph-card">
+<h3>📊 Sleep Progress</h3>
+<canvas id="sleepChart"></canvas>
+</div>
+
+</div>
+
+<!-- CHATBOT PANEL -->
+<div class="chat-panel">
+
+<h2>🤖 PeaceBot</h2>
+
+<div id="chatBox" class="chat-box">
+<div class="bot-msg">
+Welcome {{ user.name }} 🌿 <br><br>
+"A calm night creates a powerful tomorrow." 🌙 <br><br>
+Tell me about your sleep today.
+</div>
+</div>
+
+<div class="chat-input-area">
+<input type="text" id="userInput" placeholder="Type your message...">
+<button onclick="sendMessage()">Send</button>
+</div>
+
+</div>
+
+</div>
+
+<input type="hidden" id="userName" value="{{ user.name }}">
+<input type="hidden" id="userAge" value="{{ user.age }}">
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function(){
+
+document.getElementById("themeSelector").addEventListener("change", function(){
+document.body.className = this.value;
+});
+
+const labels = {{ chart_labels | tojson }};
+const values = {{ chart_data | tojson }};
+
+const ctx = document.getElementById("sleepChart").getContext("2d");
+
+const gradient = ctx.createLinearGradient(0,0,0,300);
+gradient.addColorStop(0,"rgba(108,99,255,0.7)");
+gradient.addColorStop(1,"rgba(108,99,255,0.2)");
+
+const chart = new Chart(ctx,{
+type:'bar',
+data:{
+labels:labels,
+datasets:[{
+label:"Sleep Score",
+data:values,
+backgroundColor:gradient,
+borderRadius:12,
+borderWidth:1
+}]
+},
+options:{
+responsive:true,
+plugins:{
+legend:{display:false}
+},
+scales:{
+y:{
+beginAtZero:true,
+max:10,
+title:{display:true,text:"Score"}
+},
+x:{
+title:{display:true,text:"Days"}
+}
+}
+}
+});
+
+document.getElementById("sleepForm").addEventListener("submit",function(e){
+
+e.preventDefault();
+
+const formData=new FormData(this);
+
+fetch("/track_sleep",{
+method:"POST",
+body:formData
+})
+.then(res=>res.json())
+.then(data=>{
+
+document.getElementById("scoreBox").innerHTML =
+"<b>"+data.score+"/10</b>";
+
+chart.data.labels.push("Day "+(chart.data.labels.length+1));
+chart.data.datasets[0].data.push(data.score);
+
+chart.update();
+
+});
+
+});
+
+});
+
+</script>
+
+</body>
+</html>

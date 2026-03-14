@@ -1,0 +1,150 @@
+body{
+margin:0;
+font-family:'Segoe UI',sans-serif;
+transition:background 0.3s,color 0.3s;
+}
+
+.main-container{
+display:flex;
+height:100vh;
+gap:20px;
+padding:20px;
+}
+
+/* TRACKER PANEL */
+
+.tracker-panel{
+width:30%;
+background:white;
+padding:25px;
+border-radius:15px;
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
+}
+
+.tracker-panel select,
+.tracker-panel button{
+width:100%;
+padding:10px;
+margin-bottom:15px;
+border-radius:8px;
+border:1px solid #ccc;
+}
+
+.tracker-panel button{
+background:linear-gradient(135deg,#6c63ff,#8f8aff);
+color:white;
+border:none;
+cursor:pointer;
+font-weight:600;
+}
+
+.tracker-panel button:hover{
+opacity:0.9;
+}
+
+/* ANALYTICS */
+
+.analytics-panel{
+width:30%;
+display:flex;
+flex-direction:column;
+gap:20px;
+}
+
+.score-card{
+background:white;
+padding:25px;
+border-radius:15px;
+box-shadow:0 6px 20px rgba(0,0,0,0.08);
+font-size:28px;
+text-align:center;
+}
+
+.graph-card{
+background:white;
+padding:20px;
+border-radius:15px;
+box-shadow:0 6px 20px rgba(0,0,0,0.08);
+}
+
+/* CHAT PANEL */
+
+.chat-panel{
+width:40%;
+display:flex;
+flex-direction:column;
+background:white;
+border-radius:15px;
+padding:20px;
+box-shadow:0 6px 20px rgba(0,0,0,0.08);
+}
+
+.chat-box{
+flex:1;
+overflow-y:auto;
+padding:15px;
+border-radius:10px;
+background:#f8f8f8;
+margin-bottom:15px;
+}
+
+.bot-msg{
+background:#e6e6fa;
+padding:10px;
+border-radius:10px;
+margin-bottom:10px;
+}
+
+.user-msg{
+background:#d1ffd6;
+padding:10px;
+border-radius:10px;
+margin-bottom:10px;
+text-align:right;
+}
+
+.chat-input-area{
+display:flex;
+}
+
+.chat-input-area input{
+flex:1;
+padding:10px;
+border-radius:8px;
+border:1px solid #ccc;
+}
+
+.chat-input-area button{
+margin-left:10px;
+padding:10px 15px;
+border-radius:8px;
+border:none;
+background:#6c63ff;
+color:white;
+cursor:pointer;
+}
+
+/* THEMES */
+
+body.dark{
+background:#121212;
+color:white;
+}
+
+body.dark .tracker-panel,
+body.dark .analytics-panel .score-card,
+body.dark .graph-card,
+body.dark .chat-panel{
+background:#1e1e1e;
+}
+
+body.dark .chat-box{
+background:#222;
+}
+
+body.dark input,
+body.dark select{
+background:#2a2a2a;
+color:white;
+border:1px solid #555;
+}
